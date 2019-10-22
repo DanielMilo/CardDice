@@ -25,6 +25,7 @@ public class DeckTester : MonoBehaviour
         Debug.Log("Chance to roll " + maximalThreshold + " or below: " + ChanceBelowThreshold(maximalThreshold));
 
         Debug.Log("Expected w/ Advantage: " + GetAdvantageExpectedValue());
+        Debug.Log("Expected w/ Disadvantage: " + GetDisadvantageExpectedValue());
     }
 
     // Update is called once per frame
@@ -64,6 +65,31 @@ public class DeckTester : MonoBehaviour
             foreach (int second in temp)
             {
                 if(second > card)
+                {
+                    oneCardSum += second;
+                }
+                else
+                {
+                    oneCardSum += card;
+                }
+            }
+            sum += oneCardSum / (float)temp.Count;
+        }
+
+        return sum / Cards.Length;
+    }
+
+    float GetDisadvantageExpectedValue()
+    {
+        float sum = 0;
+        foreach (int card in Cards)
+        {
+            int oneCardSum = 0;
+            List<int> temp = new List<int>(Cards);
+            temp.Remove(card);
+            foreach (int second in temp)
+            {
+                if (second < card)
                 {
                     oneCardSum += second;
                 }
